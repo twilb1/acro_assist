@@ -3,10 +3,10 @@
 <head>
   <!-- Highlighter initialization -->
   <!-- <script type="text/javascript" src="hilitor.js"></script> -->
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
   //  var myHilitor = new Hilitor("mytextarea"); // id of the element to parse
   //  myHilitor.apply("highlight words");
-  </script>
+  </script> -->
 </head>
   <script>
   function check_to_perform()
@@ -22,14 +22,16 @@
       <h1>Acronym Finder Assistant</h1>
       <p>Select one or more of the checkboxes to perform the selected checks. Words and phrases that satisfy the checks are highlighted.</p>
       <!-- <p>Highlight keywords as you type: <input id="keywords" size="24"></p> --> 
-          <input type="checkbox" id="Acro_Check" name="Acro_Check" value="\b(?:[a-z]*[A-Z][a-z]*){2,}"> Check for acronymn candidates.<br>
-        <div id="input1">
-        <p>The search expression (regular expression) is: <input type="text" id="check" size="50"</p>
+        <input type="checkbox" id="Acro_Check" name="Acro_Check" value="\b(?:[a-z]*[A-Z][a-z]*){2,}"> Check for acronymn candidates.<br>
+        <div id="input1"><p>The search expression (regular expression) is: <input type="text" id="check" size="50"</p></div>
         <div id="myTextArea" style="overflow:scroll; height:400px; border:1px solid black;" contenteditable="true">Paste your text here!</div>
-      </div>
-  <script src="hilitor.js"></script>
+ <!--       <div id="output1"><p>Possible Acronyms: <input type="text" id="pAcros" size="100"</p></div> -->
+        <div id="output1"><p>Possible Acronyms: <div id="pAcros" style="overflow:scroll; height:50px; border:1px solid black;" contenteditable="true"></div></p></div> 
+  <!--<script src="hilitor.js"></script>-->
   <script>
     var strUser = ""
+    var acroList = [];   // array to collect acronym candidates
+
 
     // Highlighter listener
     window.addEventListener("DOMContentLoaded", function(e) {
@@ -44,28 +46,49 @@
       }, false);
     }, false);
   
-  var selections = {};
-  var checkboxElems = document.querySelectorAll("input[type='checkbox']");
-  for (var i = 0; i < checkboxElems.length; i++) {
-    checkboxElems[i].addEventListener("click", displayCheck);
-  };
+    var selections = {};
+    var checkboxElems = document.querySelectorAll("input[type='checkbox']");
+    for (var i = 0; i < checkboxElems.length; i++) {
+        checkboxElems[i].addEventListener("click", displayCheck);
+    };
+
+  
+  
   function displayCheck(e) {
     if (e.target.checked) {
+      myText = document.getElementById('myTextArea').innerHTML;  
+      acroList = [];
       strUser = strUser + e.target.value + "|";
-      }
-    else{
-      strUser = strUser.replace(e.target.value + "|","");
-    };
+//      }
+//    else{
+//      strUser = strUser.replace(e.target.value + "|","");
+//      document.getElementById('pAcros').innerHTML = "";
+//    };
+
       var finalExp = strUser.substring(0, strUser.length - 1);
-      console.log(finalExp);
+      // console.log(finalExp);
       document.getElementById("check").value = finalExp
       check.dispatchEvent(new Event('change'));
-
+      // console.log(acroList.length);
+      candidateStr = ""
+      document.getElementById('pAcros').innerHTML = "";
+      for (i = 0; i < acroList.length; i++)
+        {
+          if (acroList[i].length < 6)
+            candidateStr = candidateStr + acroList[i] + " ";
+        }
+        // console.log(candidateStr);
+        // document.getElementById("pAcros").value = candidateStr;
+        document.getElementById('pAcros').innerHTML += candidateStr;
+        }
+      else{
+        strUser = strUser.replace(e.target.value + "|","");
+        document.getElementById('pAcros').innerHTML = "";
+        document.getElementById('myTextArea').innerHTML = myText;
+    };
   }
   
-  </script>
   
-  <script>
   // Highlighter.js code and acknowledgement here.
   
   // Original JavaScript code by Chirp Internet: www.chirp.com.au
@@ -84,6 +107,7 @@ function Hilitor(id, tag)
   var matchRegExp = "";
   var openLeft = false;
   var openRight = false;
+
 
   // characters to strip from start and end of the input string
   var endRegExp = new RegExp('^[^\\w]+|[^\\w]+$', "g");
@@ -139,8 +163,10 @@ function Hilitor(id, tag)
       if(!this.openRight) {
         re = re + "\\b";
       }*/
-//      matchRegExp = new RegExp(re, "i");                  // LB>> Removing the "i" param here for case insensitivity
+//      matchRegExp = new RegExp(re, "i");       // LB>> Removing the "i" param here for case insensitivity
       matchRegExp = new RegExp(re);
+        // console.log(re);
+//      console.log(matchRegExp);
       return matchRegExp;
     }
     return false;
@@ -153,6 +179,9 @@ function Hilitor(id, tag)
     retval = retval.replace(/\|/g, " ");
     return retval;
   };
+
+
+  // let acroSet = new Set(); // create a set to collect the acronym candidates
 
   // recursively apply word highlighting
   this.hiliteWords = function(node)
@@ -167,11 +196,23 @@ function Hilitor(id, tag)
     }
     if(node.nodeType == 3) { // NODE_TEXT
       if((nv = node.nodeValue) && (regs = matchRegExp.exec(nv))) {
+      
+        // acroSet.add(regs[0]);
+        // console.log(acroSet.size);
+        if(acroList.includes(regs[0])){ 
+            // Do nothing;
+          }
+        else {
+            // Add candidate to array
+            acroList.push(regs[0]);
+          }
+        
         if(!wordColor[regs[0].toLowerCase()]) {
           wordColor[regs[0].toLowerCase()] = colors[colorIdx++ % colors.length];
         }
 
         var match = document.createElement(hiliteTag);
+        // console.log(hiliteTag);
         match.appendChild(document.createTextNode(regs[0]));
         match.style.backgroundColor = wordColor[regs[0].toLowerCase()];
         match.style.color = "#000";
@@ -182,6 +223,8 @@ function Hilitor(id, tag)
       }
     };
   };
+  
+        
 
   // remove highlighting
   this.remove = function()
