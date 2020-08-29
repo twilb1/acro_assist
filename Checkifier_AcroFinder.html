@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Highlighter initialization -->
+  <!-- <script type="text/javascript" src="hilitor.js"></script> -->
+  <script type="text/javascript">
+  //  var myHilitor = new Hilitor("mytextarea"); // id of the element to parse
+  //  myHilitor.apply("highlight words");
+  </script>
+</head>
+  <script>
+  function check_to_perform()
+  {
+    var mylist=document.getElementById("checkDropDown");
+    document.getElementById("check").value = mylist.options[mylist.selectedIndex].value;
+    // document.getElementById("keywords").value = mylist.options[mylist.selectedIndex].value;
+  }
+  </script>
+<body>
+
+</form>
+      <h1>Acronym Finder Assistant</h1>
+      <p>Select one or more of the checkboxes to perform the selected checks. Words and phrases that do not satisfy the checks are highlighted.</p>
+      <!-- <p>Highlight keywords as you type: <input id="keywords" size="24"></p> --> 
+          <input type="checkbox" id="Acro_Check" name="Acro_Check" value="\b(?:[a-z]*[A-Z][a-z]*){2,}"> Check for acronymn candidates.<br>
+        <div id="input1">
+        <p>The search expression (regular expression) is: <input type="text" id="check" size="50"</p>
+        <div id="myTextArea" style="overflow:scroll; height:400px; border:1px solid black;" contenteditable="true">Paste your text here!</div>
+      </div>
+  <script src="hilitor.js"></script>
+  <script>
+    var strUser = ""
+
+    // Highlighter listener
+    window.addEventListener("DOMContentLoaded", function(e) {
+//      var myHilitor2 = new Hilitor("input1");
+      var myHilitor2 = new Hilitor("myTextArea");
+      myHilitor2.apply("highlight words");
+      myHilitor2.setMatchType("left");
+//      document.getElementById("check").addEventListener("keyup", function(e) {
+//      document.getElementById("check").addEventListener("keypress", function(e) {
+      document.getElementById("check").addEventListener('change', function(e) {
+        myHilitor2.apply(this.value);
+      }, false);
+    }, false);
+  
+  var selections = {};
+  var checkboxElems = document.querySelectorAll("input[type='checkbox']");
+  for (var i = 0; i < checkboxElems.length; i++) {
+    checkboxElems[i].addEventListener("click", displayCheck);
+  };
+  function displayCheck(e) {
+    if (e.target.checked) {
+      strUser = strUser + e.target.value + "|";
+      }
+    else{
+      strUser = strUser.replace(e.target.value + "|","");
+    };
+      var finalExp = strUser.substring(0, strUser.length - 1);
+      console.log(finalExp);
+      document.getElementById("check").value = finalExp
+      check.dispatchEvent(new Event('change'));
+
+  }
+  
+  </script>
+  
+  <script>
+  // Highlighter.js code and acknowledgement here.
+  
+  // Original JavaScript code by Chirp Internet: www.chirp.com.au
+// Please acknowledge use of this code by including this header.
+
+function Hilitor(id, tag)
+{
+
+  // private variables
+  var targetNode = document.getElementById(id) || document.body;
+  var hiliteTag = tag || "MARK";
+  var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT|FORM|SPAN)$");
+  var colors = ["#ff6", "#a0ffff", "#9f9", "#f99", "#f6f"];
+  var wordColor = [];
+  var colorIdx = 0;
+  var matchRegExp = "";
+  var openLeft = false;
+  var openRight = false;
+
+  // characters to strip from start and end of the input string
+  var endRegExp = new RegExp('^[^\\w]+|[^\\w]+$', "g");
+
+  // characters used to break up the input string into words
+  var breakRegExp = new RegExp('[^\\w\'-]+', "g");
+
+  this.setEndRegExp = function(regex) {
+    endRegExp = regex;
+    return endRegExp;
+  };
+
+  this.setBreakRegExp = function(regex) {
+    breakRegExp = regex;
+    return breakRegExp;
+  };
+
+  this.setMatchType = function(type)
+  {
+    switch(type)
+    {
+      case "left":
+        this.openLeft = false;
+        this.openRight = true;
+        break;
+
+      case "right":
+        this.openLeft = true;
+        this.openRight = false;
+        break;
+
+      case "open":
+        this.openLeft = this.openRight = true;
+        break;
+
+      default:
+        this.openLeft = this.openRight = false;
+
+    }
+  };
+
+  this.setRegex = function(input)
+  {
+//    input = input.replace(endRegExp, "");
+//    input = input.replace(breakRegExp, "|");
+//    input = input.replace(/^\||\|$/g, "");
+    if(input) {
+      re = input;
+/*      var re = "(" + input + ")";
+      if(!this.openLeft) {
+        re = "\\b" + re;
+      }
+      if(!this.openRight) {
+        re = re + "\\b";
+      }*/
+//      matchRegExp = new RegExp(re, "i");                  // LB>> Removing the "i" param here for case insensitivity
+      matchRegExp = new RegExp(re);
+      return matchRegExp;
+    }
+    return false;
+  };
+
+  this.getRegex = function()
+  {
+    var retval = matchRegExp.toString();
+    retval = retval.replace(/(^\/(\\b)?|\(|\)|(\\b)?\/i$)/g, "");
+    retval = retval.replace(/\|/g, " ");
+    return retval;
+  };
+
+  // recursively apply word highlighting
+  this.hiliteWords = function(node)
+  {
+    if(node === undefined || !node) return;
+    if(!matchRegExp) return;
+    if(skipTags.test(node.nodeName)) return;
+
+    if(node.hasChildNodes()) {
+      for(var i=0; i < node.childNodes.length; i++)
+        this.hiliteWords(node.childNodes[i]);
+    }
+    if(node.nodeType == 3) { // NODE_TEXT
+      if((nv = node.nodeValue) && (regs = matchRegExp.exec(nv))) {
+        if(!wordColor[regs[0].toLowerCase()]) {
+          wordColor[regs[0].toLowerCase()] = colors[colorIdx++ % colors.length];
+        }
+
+        var match = document.createElement(hiliteTag);
+        match.appendChild(document.createTextNode(regs[0]));
+        match.style.backgroundColor = wordColor[regs[0].toLowerCase()];
+        match.style.color = "#000";
+
+        var after = node.splitText(regs.index);
+        after.nodeValue = after.nodeValue.substring(regs[0].length);
+        node.parentNode.insertBefore(match, after);
+      }
+    };
+  };
+
+  // remove highlighting
+  this.remove = function()
+  {
+    var arr = document.getElementsByTagName(hiliteTag);
+    while(arr.length && (el = arr[0])) {
+      var parent = el.parentNode;
+      parent.replaceChild(el.firstChild, el);
+      parent.normalize();
+    }
+  };
+
+  // start highlighting at target node
+  this.apply = function(input)
+  {
+    this.remove();
+    if(input === undefined || !(input = input.replace(/(^\s+|\s+$)/g, ""))) {
+      return;
+    }
+    if(this.setRegex(input)) {
+      this.hiliteWords(targetNode);
+    }
+    return matchRegExp;
+  };
+
+}
+
+  
+  
+  </script>
+  
+ </body>
+</html>
