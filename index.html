@@ -165,8 +165,9 @@ function Hilitor(id, tag)
       }*/
 //      matchRegExp = new RegExp(re, "i");       // LB>> Removing the "i" param here for case insensitivity
       matchRegExp = new RegExp(re);
-        // console.log(re);
-//      console.log(matchRegExp);
+      console.log(re);
+      console.log(matchRegExp);
+      matchRegExp = matchRegExp; //+ "\/g";
       return matchRegExp;
     }
     return false;
