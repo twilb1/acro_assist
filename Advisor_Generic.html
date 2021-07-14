@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html>
     <head>
@@ -210,3 +211,217 @@
 </body>
 
 </html>
+=======
+<!doctype html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            div.container, div.comment{
+                background-color:rgb(230,230,230);
+                margin-left: 5pt;
+                margin-right: 5pt;
+                margin-bottom: 1em;
+                padding: 5pt; 
+                border-radius: 0.7em;
+/*                width: 100%; */
+            }
+            div.comment{
+                background-color:gold;
+            }
+            div.more{
+                color: rgb(0, 104, 181);
+                margin-left: 22px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                max-height: 0;
+                transition: max-height 1s ease-out;
+                overflow: hidden;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 10pt;
+                /* display: none; */ 
+            }    
+            label.showMore {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 10pt;
+                margin-bottom: 5px;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            label.showMore:hover + * {
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 10pt;
+                display: block;
+                margin-bottom: 5px;
+                color: rgb(0, 104, 181);
+                max-height: 500px;
+                transition: max-height 2s ease-in;
+            }
+            p{
+                margin: 0pt;
+                margin-top: 5pt;
+                margin-bottom: 5pt;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                font-size: 11pt;
+            }
+            h2{
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                text-align: center;
+                color: rgb(0, 104, 181);
+/*                color:#0068B5";*/
+            }
+        </style>
+    </head>
+<body>
+  <h2>Generic Advisor</h2>
+  <script>
+      $(document).ready(function() {
+        var ans = [];
+        var idx;
+        var temp = "blank";
+        var qcount = 0;
+        var index;
+        var elem;
+        var question;
+
+        question = tree;
+
+        function ask(q){
+            console.log(q);
+            qcount = qcount + 1;
+            elem = document.createElement('div');
+            elem.id = "container" + qcount;
+            elem.className = "container";
+            document.body.appendChild(elem);
+            $('#container' + qcount).append(`<p>${q.question}</p>`)
+            var radios = q.answers.map(({ answer }, index) => {$('#container' + qcount)
+                .append(`<input type="radio" id=${index}+qcount name="contact" value="${answer}">`)
+                if(`${q.answers[index].helptext}` == ""){
+                    $('#container' + qcount).append(`<label class="showMore">${answer}</label></div>`)
+                }
+                else{
+                    $('#container' + qcount).append(`<label class="showMore">${answer} <span style="color:#0068B5">&#x1F6C8;</span></label></div>`)
+                }
+                $('#container' + qcount).append(`<div class="more">${q.answers[index].helptext} </div>`);
+                ans[index] = answer; 
+            });
+                
+        };  // end of ask(q) function
+        
+        $("body").on("change", "input[name=contact]:checked", function(){
+            console.log("listener active...")
+            temp = $(this).val();                   // Determine which radio button was clicked
+            idx = ans.findIndex(x => x === temp);   // Get the index corresponding to the clicked answer
+            if (question.answers[idx].comment) {
+//                $('#container' + qcount).append(`<p>${question.answers[idx].comment}</p>`)
+
+                elem2 = document.createElement('div');
+                elem2.id = "comment" + qcount;
+                elem2.className = "comment";
+                document.body.appendChild(elem2);
+                $('#comment' + qcount).append(`<p>${question.answers[idx].comment}</p>`)
+
+                $('#container' + qcount).find('input').each(function () {  // Disable the radio buttons
+                    // $(this).prop('checked', true);
+                    $(this).attr('disabled', true);});
+                return;
+                }
+            else {
+                $('#container' + qcount).find('input').each(function () {  // Disable the radio buttons
+                    // $(this).prop('checked', true);
+                    $(this).attr('disabled', true);}); 
+                question = question.answers[idx];
+                ask(question);
+            }
+        }); // listener ends here
+        
+        ask(question); // Get the ball rolling... 
+
+      }); // end of document.ready function 
+
+      var tree = {
+        question: 'Question 1 Text?',
+        answers: [
+            {
+                answer: 'Answer 1a Text',
+                helptext: 'Answer 1a HelpText',
+                question: 'Question 1_1 Text?',
+                answers: [
+                    {
+                        answer: 'Answer 1_1a Text',
+                        helptext: 'Answer 1_1a HelpText',
+                        question: 'Question 1_1a_1 Text?',
+                        answers: [
+                            {
+                                answer: 'Answer 1_1a_1a Text',
+                                helptext: 'Answer 1_1a_1a HelpText',
+                                question: 'Question 1_1a_1a_1 Text',
+                                answers: [
+                                    {
+                                        answer: 'Answer 1_1a_1a_1a Text',
+                                        helptext: 'Answer 1_1a_1a_1a HelpText',
+                                        comment: 'Answer 1_1a_1a_1a Comment \
+                                        the <a href="https://www.technicallywriteit.com/" style="color:#0068B5">TWi</a>.'
+                                    },
+                                    {
+                                        answer: 'Answer 1_1a_1a_1b Text',
+                                        helptext: 'Answer 1_1a_1a_1b HelpText',
+                                        comment: 'Answer 1_1a_1a_1b Comment'
+                                    }
+                                ]
+                            },
+                            {
+                                answer: 'Answer 1_1a_1b Text',
+                                helptext: 'Answer 1_1a_1b HelpText',
+                                comment: 'Answer 1_1a_1b Comment'
+                            }
+                        ]
+                    },
+                    {
+                        answer: 'Answer 1_1b Text',
+                        helptext: 'Answer 1_1b HelpText',
+                        question: 'Question 1_1b_1 Text?',
+                        answers: [
+                            {
+                                answer: 'Question 1_1b_1a Text?',
+                                helptext: 'Question 1_1b_1a HelpText',
+                                comment: 'Question 1_1b_1a Comment'
+                            },
+                            {
+                                answer: 'Question 1_1b_1b Text?',
+                                helptext: 'Question 1_1b_1b HelpText',
+                                comment: 'Question 1_1b_1b Comment'
+                            },
+                            {
+                                answer: 'Question 1_1b_1c Text?',
+                                helptext: 'Question 1_1b_1c HelpText',
+                                comment: 'Question 1_1b_1c Comment'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                answer: 'Answer 1b Text',
+                helptext: 'Answer 1b Helptext',
+                comment: 'Answer 1b Comment'
+            },
+            {
+                answer: 'Answer 1c Text',
+                helptext: 'Answer 1c Helptext',
+                comment: 'Answer 1c Comment'
+            },
+            {
+                answer: 'Answer 1d Text',
+                helptext: 'Answer 1d Helptext',
+                comment: 'Answer 1d Comment'
+            },
+        ]
+    };
+
+  </script>
+</body>
+
+</html>
+>>>>>>> 81b13fd325fcd5a3717261d013ed522ca7a00072
