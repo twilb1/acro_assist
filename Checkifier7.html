@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .multiselect {
+    width: 100%;
+    }
+
+    .selectBox {
+    position: relative;
+    }
+
+    .selectBox select {
+    width: 100%;
+    font-weight: bold;
+    }
+
+    .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    }
+
+    #checkboxes {
+    display: none;
+    border: 1px #dadada solid;
+    }
+
+    #checkboxes label {
+    display: block;
+    }
+
+    #checkboxes label:hover {
+    background-color: #1e90ff;
+    }
+    
+    #check {
+    width: 100%;
+    }
+
+  </style>
+  <!-- <script src="p5.min.js"></script> -->
+  <!-- Highlighter initialization -->
+  <!-- <script type="text/javascript" src="hilitor.js"></script> -->
+
+  <!-- <script src="xregexp-all.js"></script>
+  <script src="addons/unicode-base.js"></script>
+  <script src="addons/unicode-categories.js"></script>-->
+
+  <script>
+
+    // Highlighter.js code and acknowledgement here.
+      
+    // Original JavaScript code by Chirp Internet: www.chirp.com.au
+    // Please acknowledge use of this code by including this header.
+    
+    function Hilitor(id, tag)
+    {
+    
+      // private variables
+      var targetNode = document.getElementById(id) || document.body;
+      var hiliteTag = tag || "MARK";
+      var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT|FORM|SPAN)$");
+      var colors = ["#ff6", "#a0ffff", "#9f9", "#f99", "#f6f"];
+      var wordColor = [];
+      var colorIdx = 0;
+      var matchRegExp = "";
+      var openLeft = false;
+      var openRight = false;
+    
+      // characters to strip from start and end of the input string
+      var endRegExp = new RegExp('^[^\\w]+|[^\\w]+$', "g");
+    
+      // characters used to break up the input string into words
+      var breakRegExp = new RegExp('[^\\w\'-]+', "g");
+    
+      this.setEndRegExp = function(regex) {
+        endRegExp = regex;
+        return endRegExp;
+      };
+    
+      this.setBreakRegExp = function(regex) {
+        breakRegExp = regex;
+        return breakRegExp;
+      };
+    
+      this.setMatchType = function(type)
+      {
+        switch(type)
+        {
+          case "left":
+            this.openLeft = false;
+            this.openRight = true;
+            break;
+    
+          case "right":
+            this.openLeft = true;
+            this.openRight = false;
+            break;
+    
+          case "open":
+            this.openLeft = this.openRight = true;
+            break;
+    
+          default:
+            this.openLeft = this.openRight = false;
+    
+        }
+      };
+    
+      this.setRegex = function(input)
+      {
+    //    input = input.replace(endRegExp, "");
+    //    input = input.replace(breakRegExp, "|");
+    //    input = input.replace(/^\||\|$/g, "");
+        if(input) {
+          re = input;
+    /*      var re = "(" + input + ")";
+          if(!this.openLeft) {
+            re = "\\b" + re;
+          }
+          if(!this.openRight) {
+            re = re + "\\b";
+          }*/
+          matchRegExp = new RegExp(re, "i");
+          return matchRegExp;
+        }
+        return false;
+      };
+    
+      this.getRegex = function()
+      {
+        var retval = matchRegExp.toString();
+        retval = retval.replace(/(^\/(\\b)?|\(|\)|(\\b)?\/i$)/g, "");
+        retval = retval.replace(/\|/g, " ");
+        return retval;
+      };
+    
+      // recursively apply word highlighting
+      this.hiliteWords = function(node)
+      {
+        if(node === undefined || !node) return;
+        if(!matchRegExp) return;
+        if(skipTags.test(node.nodeName)) return;
+    
+        if(node.hasChildNodes()) {
+          for(var i=0; i < node.childNodes.length; i++)
+            this.hiliteWords(node.childNodes[i]);
+        }
+        if(node.nodeType == 3) { // NODE_TEXT
+          if((nv = node.nodeValue) && (regs = matchRegExp.exec(nv))) {
+            if(!wordColor[regs[0].toLowerCase()]) {
+              wordColor[regs[0].toLowerCase()] = colors[colorIdx++ % colors.length];
+            }
+    
+            var match = document.createElement(hiliteTag);
+            match.appendChild(document.createTextNode(regs[0]));
+            match.style.backgroundColor = wordColor[regs[0].toLowerCase()];
+            match.style.color = "#000";
+    
+            var after = node.splitText(regs.index);
+            after.nodeValue = after.nodeValue.substring(regs[0].length);
+            node.parentNode.insertBefore(match, after);
+          }
+        };
+      };
+    
+      // remove highlighting
+      this.remove = function()
+      {
+        var arr = document.getElementsByTagName(hiliteTag);
+        while(arr.length && (el = arr[0])) {
+          var parent = el.parentNode;
+          parent.replaceChild(el.firstChild, el);
+          parent.normalize();
+        }
+      };
+    
+      // start highlighting at target node
+      this.apply = function(input)
+      {
+        this.remove();
+        if(input === undefined || !(input = input.replace(/(^\s+|\s+$)/g, ""))) {
+          return;
+        }
+        if(this.setRegex(input)) {
+          this.hiliteWords(targetNode);
+        }
+        return matchRegExp;
+      };
+    
+    }
+    
+      </script>
+
+
+
+
+  <script>
+  var txt;
+  
+  function preload(){
+//    txt = loadStrings("rainbow.txt");
+      txt = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"]
+  }
+  
+  function setup(){
+    noCanvas();
+    console.log(txt);
+  }
+  </script>
+
+  <script type="text/javascript">
+    var myHilitor = new Hilitor("myTextArea"); // id of the element to parse
+    myHilitor.apply("highlight words");
+  </script>
+  
+
+  
+  <script>
+  function check_to_perform()
+  {
+    var mylist=document.getElementById("checkDropDown");
+    document.getElementById("check").value = mylist.options[mylist.selectedIndex].value;
+    // document.getElementById("keywords").value = mylist.options[mylist.selectedIndex].value;
+  }
+  </script>
+  <script>
+  var expanded = false;
+
+  function showCheckboxes() {
+    var checkboxes = document.getElementById("checkboxes");
+    if (!expanded) {
+      checkboxes.style.display = "block";
+      expanded = true;
+    } else {
+      checkboxes.style.display = "none";
+      expanded = false;
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <h1>Online Content Issue Checklist</h1>
+
+  <div style="width: 100%; overflow: hidden;">
+  <div style="width: 600px; float: left;"> 
+  <form>
+    <div class="multiselect">
+      <div class="selectBox" onclick="showCheckboxes()">
+        <select>
+          <option>Select one or more checks to perform</option>
+        </select>
+        <div class="overSelect"></div>
+      </div>
+      <div id="checkboxes">
+        <label for="one">
+          <input type="checkbox" id="Links_Check" name="Links_Check" value='<a .*>(https?:\/\/.*)<\/a>|<a .*>(\/.*)<\/a>'> Check for links with URLs instead of text.</label>
+        <label for="two">
+          <input type="checkbox" id="Space_Check" name="Space_Check" value='\s+([\s.,!:])'> Check for space before punctuation.</label>
+        <label for="three">
+          <input type="checkbox" id="EmptyLi_Check" name="EmptyLi_Check" value="<li.*>\s*<\/li>"> Check for empty list items.</label>
+        <label for="four">
+          <input type="checkbox" id="DupPunct_Check" name="DupPunct_Check" value="([^\p{L}\p{N}])\1+"> Check for duplicate punctuation.</label>
+        <label for="five">
+          <input type="checkbox" id="DupPunct_Check2" name="DupPunct_Check2" value="([!\#$%&'()*+,-.\/:;<=>?@[\]^_`{|}~])\1+"> Check for duplicate punctuation.</label>
+        <label for="six">
+          <input type="checkbox" id="Check_Lang" name="Check_Lang" value='<html\slang="\w{2}-\w{2}"'> Check the webpage language.</label>
+        <label for="seven">
+          <input type="checkbox" id="Check_H1" name="Check_H1" value='<h1 .*>.+?<\/h1>'> Check the webpage heading format.</label>
+        <label for="eight">
+          <input type="checkbox" id="Check_H1" name="Check_H1" value='<h1 .*>.+?<\/h1>'> Check the webpage heading format.</label>
+        <label for="nine">
+          <input type="checkbox" id="Check_Image" name="Check_Image" value='<img alt=""'> Check image with blank Alt attribute.</label>
+      </div>
+    </div>
+  </form>
+    <p>The search expression (regular expression) is: <input type="text" id="check" size="50"></p>
+    <div id="myTextArea" style="overflow:scroll; height:400px; border:1px solid black;" contenteditable="true">Paste your text here!</div>
+    </div>  
+        
+  <script>
+    var strUser = ""
+
+    // Highlighter listener
+    window.addEventListener("DOMContentLoaded", function(e) {
+      var myHilitor2 = new Hilitor("input1");
+      myHilitor2.setMatchType("left");
+//      document.getElementById("check").addEventListener("keyup", function(e) {
+//      document.getElementById("check").addEventListener("keypress", function(e) {
+      document.getElementById("check").addEventListener('change', function(e) {
+        myHilitor2.apply(this.value);
+      }, false);
+    }, false);
+  
+  var selections = {};
+  var checkboxElems = document.querySelectorAll("input[type='checkbox']");
+  for (var i = 0; i < checkboxElems.length; i++) {
+    checkboxElems[i].addEventListener("click", displayCheck);
+  };
+  
+  function displayCheck(e) {
+    if (e.target.checked) {
+      strUser = strUser + e.target.value + "|";
+      }
+    else{
+      strUser = strUser.replace(e.target.value + "|","");
+    };
+      var finalExp = strUser.substring(0, strUser.length - 1);
+      // console.log(finalExp);
+      document.getElementById("check").value = finalExp
+      check.dispatchEvent(new Event('change'));
+  }
+  </script>
+
+
+
+<div style="margin-left: 620px;">   
+</div>
+ 
+<!--  <script src="multiselect/jquery.multi-select.js"></script> -->
+ 
+ </body>
+</html>
