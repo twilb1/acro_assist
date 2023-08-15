@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python in the Browser</title>
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel ="stylesheet" crossorigin="anonymous">
+  <py-env>
+      - numpy
+      - matplotlib
+      - paths:
+          - /data.py
+  </py-env>
+</head>
+<body>
+    <!--<py-script>print("Hello, World!")</py-script>-->
+    <h2>Use Python to Get Today's Date</h2>
+    <p>Today is: <u><label id="today"></label></u></p>
+    <h2>Use Python to Compute Pi</h2>
+    <div id="pi" class="alert alert-secondary"></div>
+    <py-script>
+def wallis(n):
+    pi = 2
+    for i in range(1,n):
+        pi *= 4 * i ** 2 / (4 * i ** 2 -1)
+    return pi
+
+pi = wallis(100000)
+s = f"Pi is approximately: {pi:.3f}"
+print(s)
+manual_div = Element("pi")
+manual_div.element.innerText = pi
+    </py-script>
+
+    <py-script>
+import datetime as dt
+pyscript.write('today', dt.date.today().strftime('%A %B %d, %Y'))
+    </py-script>
+
+    <h2>Let's Initiate a PyScript Repl</h2>
+    <p>Write some python code in the cell below and press Shift-Enter to have the code evaluated.</p><br>
+    <div>
+        <py-repl id="my-repl" auto-generate="true"></py-repl>
+    </div>
+    <p>Some text here... </p>
+
+    <h2>Let's Plot Random Numbers</h2>
+    <p>Use python's matplotlib to plot some randomly generated coordinates.</p>
+    <div id="plot"></div>
+    <py-script>
+import matplotlib.pyplot as plt
+from data import make_x_and_y
+
+x, y = make_x_and_y(n=100)
+fig, ax = plt.subplots()
+ax.scatter(x,y)
+fig
+    </py-script>
+
+</body>
+</html>
