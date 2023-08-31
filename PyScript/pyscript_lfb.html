@@ -11,7 +11,7 @@
       - numpy
       - matplotlib
       - paths:
-          - /data.py
+          - /PyScript/data.py
   </py-env>
 </head>
 <body>
@@ -21,6 +21,7 @@
     <h2>Use Python to Compute Pi</h2>
     <div id="pi" class="alert alert-secondary"></div>
     <py-script>
+import json
 def wallis(n):
     pi = 2
     for i in range(1,n):
@@ -44,7 +45,7 @@ pyscript.write('today', dt.date.today().strftime('%A %B %d, %Y'))
     <div>
         <py-repl id="my-repl" auto-generate="true"></py-repl>
     </div>
-    <p>Some text here... </p>
+    <p> </p>
 
     <h2>Let's Plot Random Numbers</h2>
     <p>Use python's matplotlib to plot some randomly generated coordinates.</p>
