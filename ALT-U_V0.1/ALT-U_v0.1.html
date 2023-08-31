@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="color-scheme" content="dark light">
+  <link id="stylesheet" rel="stylesheet" type="text/css" href="default.css">
+  <link rel="stylesheet" href="vs_2015.css">
+  <title id="title">Document Title</title>
+</head>
+<body>
+
+<div class="grid-container">
+  <div id="toolbar" class="toolbar">
+    <b>ALT-U: </b><button id="chooseDir">Choose Folder with .md Files</button>
+    <button id="save_btn" onclick="save()">Save</button>
+    <button id="save_as_btn" onclick="saveAs()">Save As</button>
+    <button id="toggle_editible" onclick="toggleEditable()">Edit</button> 
+  </div>
+
+  <div id="header" class="header">
+    <title id="title">Default Title</title>
+    <input class="subtitle" id="subtitle" type="text" value="Document Title" readOnly="true" outline="none">
+    <!--<select class="stylenames" name="stylenames" id="stylenames"></select>-->
+  </div>
+
+  <div id="left" class="left" name="left" style="color: white">Site Map</div>
+  <div id="middle" class="middle">Content</div>  
+  <div id="right" class="right" style="color: white">
+    <div id="inside_right" class="inside_right" style="color: white"></div>
+  </div>
+  
+  <div class="footer">
+    <p>Footer</p>
+  </div>
+</div>
+
+<!--<script src="https://d3js.org/d3.v7.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.2.4/marked.min.js" integrity="sha512-nwWBb9WFoP7Q0hkeTjUPmHkkYLnmYgYnZ8PvQVVL2XJ9RLCGuLqKe86bhmZ3CJXGU8F777uuPkDQTkZ2qAuyvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+<script src="marked_4.2.4_min.js"></script>
+<script src="main_new.js"></script>
+<script src="hljs_11_7_0_min.js"></script>
+<script>hljs.highlightAll();</script>
+
+<script>
+let mdFileHandles2 = [];
+let cssFileHandles2 = [];
+let firstPass2 = true;
+
+// Show files list
+async function showFileList(dirHandlePtr){
+  // let temp = currentFileHandle;
+  cssFileHandles2 = [];
+  // console.log(dirHandlePtr)
+  // console.log("Files List: ")
+  let head;
+  let fileHandle;
+  let text;
+  left.innerHTML = "<p style=\"color: white\"><b>Site Map</b></p>";
+  for await (const entry of dirHandlePtr.values()) {
+    // console.log(entry.kind, entry.name);
+    if(entry.name.includes("Title")){                // Get the file handle of the Title file
+      titleHandle = entry;
+    }
+    else if(entry.name.includes(".css") && firstPass2){                // Get the file handle of the Title file
+      cssFileHandles2.push({name: entry.name});
+      // console.log("CSS Name is:" + entry.name);
+    }
+    else if(entry.name.includes(".md")) {
+        temp = entry;      
+        // console.log(entry.name);
+        // console.log(entry.kind);
+        head = await getHead1fromFile(entry);
+        let id = entry.name.replace(".md","")
+//        entries.push(id);
+        mdFileHandles2.push({id: id, handle: entry})
+        left.innerHTML += '<p class="ptoc" id="' + id + '">' + head + '</p>';
+    }
+  }
+//  console.log("CSS Files Length:" + cssFileHandles.length)
+//  console.log(cssFileHandles[1]);
+//  console.log(mdFileHandles.length);
+//  console.log(mdFileHandles[3]);
+  mdFileHandles2.forEach(function(item) {
+      console.log("md file id: " + item.id);
+      document.getElementById(item.id).addEventListener('click', function(){
+      console.log('md file handle: ' + item.handle);
+      openFile(item.handle);
+      // currentFileHandle = item.handle;
+      toggle_editible.disabled = false;
+    });
+  })
+}
+
+async function asyncCall() {
+  dirHandle2 = await window.showDirectoryPicker();
+  console.log(dirHandle2);
+  await showFileList(dirHandle2);      // This should populate titleHandle.
+}
+
+asyncCall();
+</script>
+
+</body>
+</html>
+
+

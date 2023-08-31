@@ -1,0 +1,267 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html {
+    height: 100vh;
+    width: 100vw;
+    /*overflow-y: auto;*/
+    overflow: hidden;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    /* height: 100vh; */
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    /* padding: 5px; */
+  }
+  
+  summary {
+    background: white;
+    color: #1976D2;
+    font-weight: bold;
+    margin-left: -25px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 10px;
+  }
+  
+  details {
+    background: white;
+    margin-left: 25px;
+    padding: 2px;
+  }
+  
+  details[open] {
+    background: white;
+    padding: 2px;
+  }
+    
+  /* The grid container */
+  .grid-container {
+    display: grid;
+    /* grid-template-areas: 
+      'toolbar toolbar toolbar toolbar toolbar toolbar' 
+      'header header header header header header' 
+      'left middle middle middle middle right' 
+      'footer footer footer footer footer footer';
+    grid-column-gap: 10px; - if you want gap between the columns */
+    grid-template-areas: 
+      'toolbar toolbar toolbar'  
+      'header header header' 
+      'left middle right' 
+      'footer footer footer';
+    /* grid-column-gap: 10px; - if you want gap between the columns */
+    /* min-height: 100vh */
+    /* height: 100vh;
+    width: 100vw; */
+    /* overflow: hidden; */
+  } 
+  
+  /* Style the toolbar */
+  .toolbar {
+    grid-area: toolbar;
+    background-color: palevioletred;
+    padding: 3px;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 16px;
+    display: none;
+    overflow: none;
+    z-index: 9;
+    margin: 0px;
+    height: 28px;
+    position: absolute;
+    left: 12px;
+    top: 12px; 
+  }
+  
+  /* Style the header */
+  .header {
+    grid-area: header;
+    background-color: black;
+    padding: 5px;
+    text-align: left;
+    font-size: 18px;
+    /* min-height: 100px; */
+    /* position: relative; */
+    height: 10vh;
+    /*min-height: 100px;*/
+    overflow: none;
+    /* opacity: 0.7; */
+  }  
+  
+  /* Style the left and right columns */
+  .left {
+    grid-area: left;
+    background-color: #1976D2;
+    padding: 10px;
+    overflow-y: auto;
+    height: 80vh;
+    width: 20vw; 
+  }
+  
+  /* Style the middle column */
+  .middle {
+    grid-area: middle;
+    padding: 10px;
+    overflow-y: auto; 
+    height: 80vh;
+    width: 60vw;
+    /* width: auto;*/
+    /* width: 60pc;*/
+  }
+  
+  /* Style the right column */
+  .right {
+    grid-area: right;
+    background-color: #1976D2;
+    padding: 10px; 
+    /* min-width: 250px; */
+    overflow-y: auto;
+    height: 80vh;
+    width: 20vw;
+    /* min-width: 110px; */
+    /* position: float; */
+  }
+
+  .inside_right {
+    position: fixed;
+  }
+  
+  /* Style the footer */
+  .footer {
+    grid-area: footer;
+    background-color: #f1f1f1;
+    padding: 5px; 
+    text-align: left;
+    height: 10vh;
+    overflow: none;
+  }
+  
+  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+  @media (max-width: 600px) {
+    .grid-container  {
+      grid-template-areas: 
+        /*'toolbar toolbar toolbar toolbar toolbar toolbar' 
+        'header header header header header header' 
+        'left left left left left left' 
+        'right right right right right right' 
+        'middle middle middle middle middle middle' 
+        'footer footer footer footer footer footer';*/
+        'toolbar toolbar toolbar' 
+        'header header header' 
+        'left left left' 
+        'right right right' 
+        'middle middle middle' 
+        'footer footer footer';
+    }
+    .left, .middle, .right {
+      overflow: none;
+      height: auto;
+      width: 100vw;
+    }
+    .inside_right {
+      position: static;
+    }
+  }
+  
+    h1 {
+      color: #1976D2;
+      border-bottom: 2px solid #1976D2;
+      padding-bottom: 2px;
+    }
+  
+    h2, h3, h4 {
+      color: #616161;
+      border-bottom: 1px solid #616161;
+      padding-bottom: 2px;
+    }
+
+    a.toc { color: white;}
+    a.toc:visited { color: white;}
+    a.toc:hover {color: white;}
+    a.toc::selection {color: white;}
+
+    a { color: #1976D2; text-decoration: none;}
+    a:visited { color: purple;}
+    a:hover {color: red;}
+    a::selection {color: darkblue;}
+  
+/*    a {color:white; background-color: #1976D2;}  */       /* Unvisited link  */
+/*    a:visited {color:white; background-color: #1976D2;} */ /* Visited link    */
+/*    a:hover {color:white; background-color: red;} */  /* Mouse over link */
+/*    a:active {color:white; background-color: #1976D2;} */ /* Selected link   */ 
+
+    pre {
+      white-space: pre-wrap;       /* Since CSS 2.1 */
+      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+      white-space: -pre-wrap;      /* Opera 4-6 */
+      white-space: -o-pre-wrap;    /* Opera 7 */ 
+      word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    }
+
+    .ptoc {
+        font-size: 10pt;
+        padding: 2px; 
+        margin-top: 5px;
+        margin-bottom: 5px;
+        color: white;
+        cursor: pointer;
+    }
+  
+    .ptoc:hover{
+      background-color: #2B81D6;
+      font-weight: bold;
+    }
+  
+    #toc {
+      text-decoration: none;
+    }
+  
+    .poor {
+      background-color: lightcoral;
+    }
+
+    .good {
+      background-color: lightgreen;
+    }
+  
+    .subtitle {
+      margin-left: 10px;
+      margin-top: 25px; 
+      font-size: 24pt;
+      color: white;
+      background-color: black;
+      font-weight: bold;
+      border: none;
+    }
+  
+    .subtitle:focus{
+      outline: none;
+    }
+  
+    .vertical-center {
+      margin-left: 10px;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+    
+    .stylenames {
+      margin-left: 0;
+      margin-right: 10px;
+      color: white;
+      background-color: black;
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      right: 12px;
+      top: 50px;  
+    }
+
+  
