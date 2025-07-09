@@ -1,0 +1,372 @@
+
+
+
+* {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    /*padding: 0.1rem;*/
+    margin: 0;
+    padding: 0;
+}
+
+.body {
+    background: green;
+    box-sizing: border-box;
+}
+
+.container{
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.25fr 1fr 1fr 1fr 0.25fr;
+    grid-template-areas: 
+        "head head head"
+        "board-info north bidding"
+        "west play-area east"
+        "misc south contract"
+        "foot foot foot";
+}
+
+.head {
+    background: antiquewhite;
+    grid-area: head;
+}
+
+.board-info {
+    background:lightskyblue;
+    grid-area: board-info;
+}
+
+.north {
+    background: lightgrey;
+    grid-area: north;
+    padding: 0.25rem;
+    position: relative;
+}
+
+.bidding {
+    background: lightskyblue;
+    grid-area: bidding;
+}
+
+.west {
+    background: lightgrey;
+    grid-area: west;
+    position: relative;
+}
+
+.play-area {
+    background: green;
+    grid-area: play-area;
+    position: relative;
+}
+
+.east {
+    background: lightgrey;
+    grid-area: east;
+    position: relative;
+}
+
+.misc {
+    background: lightskyblue;
+    grid-area: misc;
+}
+
+.south {
+    background: lightgrey;
+    grid-area: south;
+    position: relative;
+}
+
+.contract {
+    background: lightskyblue;
+    grid-area: contract;
+}
+
+.foot {
+    background: antiquewhite;
+    grid-area: foot;
+}
+
+#nPoints, #ePoints, #sPoints, #wPoints {
+    height: 10%;
+    width: 5%;
+    background-color: yellow;
+    float: right;
+    padding: 1%
+}
+
+@media only screen and (max-width: 550px) {
+    .container{
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.2fr 0.4fr 0.4fr 2fr 2fr 3fr 2fr 2fr 0.4fr 0.4fr 0.2fr;
+        grid-template-areas: 
+        "head"
+        "board-info"
+        "bidding"
+        "west"
+        "north"
+        "play-area"
+        "south"
+        "east"
+        "contract"
+        "misc"
+        "foot"
+    }
+}
+
+.suit-symbol-red {
+/*    width: 0.5rem;
+    display: inline-block; */
+    color: red; 
+}
+
+.suit-symbol-black {
+    width: 0.5rem;
+    display: inline-block;
+    color: black;
+}
+
+.suit-value
+{
+    display: inline-block;
+}
+
+/*.ns-card-1 {
+    position: absolute;
+    top: 15%;
+    left: 8%;
+    width: 8%;
+    height: 4%;
+    border: 1px solid white;
+    padding-top: 2%;
+    z-index: 9;
+    background-color: red;
+}*/
+
+.northspades-card-1, .northhearts-card-1, .northclubs-card-1, .northdiamonds-card-1, 
+.westspades-card-1, .westhearts-card-1, .westclubs-card-1, .westdiamonds-card-1, 
+.eastspades-card-1, .easthearts-card-1, .eastclubs-card-1, .eastdiamonds-card-1, 
+.southspades-card-1, .southhearts-card-1, .southclubs-card-1, .southdiamonds-card-1 {
+    left: 1%;
+}
+
+.northspades-card-2, .northhearts-card-2, .northclubs-card-2, .northdiamonds-card-2, 
+.westspades-card-2, .westhearts-card-2, .westclubs-card-2, .westdiamonds-card-2, 
+.eastspades-card-2, .easthearts-card-2, .eastclubs-card-2, .eastdiamonds-card-2, 
+.southspades-card-2, .southhearts-card-2, .southclubs-card-2, .southdiamonds-card-2 {
+    left: 6%;
+}
+
+.northspades-card-3, .northhearts-card-3, .northclubs-card-3, .northdiamonds-card-3, 
+.westspades-card-3, .westhearts-card-3, .westclubs-card-3, .westdiamonds-card-3, 
+.eastspades-card-3, .easthearts-card-3, .eastclubs-card-3, .eastdiamonds-card-3, 
+.southspades-card-3, .southhearts-card-3, .southclubs-card-3, .southdiamonds-card-3 {
+    left: 11%;
+}
+
+.northspades-card-4, .northhearts-card-4, .northclubs-card-4, .northdiamonds-card-4, 
+.westspades-card-4, .westhearts-card-4, .westclubs-card-4, .westdiamonds-card-4, 
+.eastspades-card-4, .easthearts-card-4, .eastclubs-card-4, .eastdiamonds-card-4, 
+.southspades-card-4, .southhearts-card-4, .southclubs-card-4, .southdiamonds-card-4 {
+    left: 16%;
+}
+
+.northspades-card-5, .northhearts-card-5, .northclubs-card-5, .northdiamonds-card-5, 
+.westspades-card-5, .westhearts-card-5, .westclubs-card-5, .westdiamonds-card-5, 
+.eastspades-card-5, .easthearts-card-5, .eastclubs-card-5, .eastdiamonds-card-5, 
+.southspades-card-5, .southhearts-card-5, .southclubs-card-5, .southdiamonds-card-5 {
+    left: 21%;
+}
+
+.northspades-card-6, .northhearts-card-6, .northclubs-card-6, .northdiamonds-card-6, 
+.westspades-card-6, .westhearts-card-6, .westclubs-card-6, .westdiamonds-card-6, 
+.eastspades-card-6, .easthearts-card-6, .eastclubs-card-6, .eastdiamonds-card-6, 
+.southspades-card-6, .southhearts-card-6, .southclubs-card-6, .southdiamonds-card-6 {
+    left: 26%;
+}
+
+.northspades-card-7, .northhearts-card-7, .northclubs-card-7, .northdiamonds-card-7, 
+.westspades-card-7, .westhearts-card-7, .westclubs-card-7, .westdiamonds-card-7, 
+.eastspades-card-7, .easthearts-card-7, .eastclubs-card-7, .eastdiamonds-card-7,
+.southspades-card-7, .southhearts-card-7, .southclubs-card-7, .southdiamonds-card-7 {
+    left: 31%;
+}
+
+.northspades-card-8, .northhearts-card-8, .northclubs-card-8, .northdiamonds-card-8, 
+.westspades-card-8, .westhearts-card-8, .westclubs-card-8, .westdiamonds-card-8, 
+.eastspades-card-8, .easthearts-card-8, .eastclubs-card-8, .eastdiamonds-card-8,
+.southspades-card-8, .southhearts-card-8, .southclubs-card-8, .southdiamonds-card-8 {
+    left: 36%;
+}
+
+.northspades-card-9, .northhearts-card-9, .northclubs-card-9, .northdiamonds-card-9, 
+.westspades-card-9, .westhearts-card-9, .westclubs-card-9, .westdiamonds-card-9, 
+.eastspades-card-9, .easthearts-card-9, .eastclubs-card-9, .eastdiamonds-card-9,
+.southspades-card-9, .southhearts-card-9, .southclubs-card-9, .southdiamonds-card-9 {
+    left: 41%;
+}
+
+.northspades-card-10, .northhearts-card-10, .northclubs-card-10, .northdiamonds-card-10, 
+.westspades-card-10, .westhearts-card-10, .westclubs-card-10, .westdiamonds-card-10, 
+.eastspades-card-10, .easthearts-card-10, .eastclubs-card-10, .eastdiamonds-card-10,
+.southspades-card-10, .southhearts-card-10, .southclubs-card-10, .southdiamonds-card-10 {
+    left: 46%;
+}
+
+.northspades-card-11, .northhearts-card-11, .northclubs-card-11, .northdiamonds-card-11, 
+.westspades-card-11, .westhearts-card-11, .westclubs-card-11, .westdiamonds-card-11, 
+.eastspades-card-11, .easthearts-card-11, .eastclubs-card-11, .eastdiamonds-card-11,
+.southspades-card-11, .southhearts-card-11, .southclubs-card-11, .southdiamonds-card-11 {
+    left: 51%;
+}
+
+.northspades-card-12, .northhearts-card-12, .northclubs-card-12, .northdiamonds-card-12, 
+.westspades-card-12, .westhearts-card-12, .westclubs-card-12, .westdiamonds-card-12, 
+.eastspades-card-12, .easthearts-card-12, .eastclubs-card-12, .eastdiamonds-card-12,
+.southspades-card-12, .southhearts-card-12, .southclubs-card-12, .southdiamonds-card-12 {
+    left: 56%;
+}
+
+.northspades-card-13, .northhearts-card-13, .northclubs-card-13, .northdiamonds-card-13, 
+.westspades-card-13, .westhearts-card-13, .westclubs-card-13, .westdiamonds-card-13, 
+.eastspades-card-13, .easthearts-card-13, .eastclubs-card-13, .eastdiamonds-card-13,
+.southspades-card-13, .southhearts-card-13, .southclubs-card-13, .southdiamonds-card-13 {
+    left: 61%;
+}
+
+.card {
+    position: absolute;
+    width: 4%;
+    height: 9%;   
+/*    width: 18px;
+    height: 26px; */
+    padding-top: 0%;
+    background-color: white; 
+    border-radius: 2px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid white; 
+}
+
+.cardfacedown {
+    background-color: palevioletred;
+    text-indent: '9999px';
+}
+
+.spades {
+    top: 15%;
+}
+
+.hearts {
+    top: 30%;
+/*    color: red;*/
+}
+
+.diamonds {
+    top: 45%;
+/*    color: red;*/
+}
+
+.clubs {
+    top: 60%;
+}
+
+img {
+  /*width: 50px;
+  height: 70px; 
+  margin-left: -35px;
+  object-fit: cover;*/
+  width: 100%;
+  cursor: grab
+}
+
+#north-playarea {
+    float: left;
+    position: absolute;
+    /* display: inline-block;*/
+    height: 30%;
+    width: 10%;
+    top: 5%;
+    left: 45%;
+    cursor: grab;
+    background-color: white;
+}
+
+#south-playarea {
+    float: left;
+    position: absolute;
+    /* display: inline-block;*/
+    height: 30%;
+    width: 10%;
+    top: 55%;
+    left: 45%;
+    cursor: grab;
+    background-color: white;
+}
+
+#west-playarea {
+    float: left;
+    position: absolute;
+    /* display: inline-block;*/
+    height: 30%;
+    width: 10%;
+    top: 27%;
+    left: 5%;
+    cursor: grab;
+    background-color: white;
+}
+
+#east-playarea {
+    float: left;
+    position: absolute;
+    /* display: inline-block;*/
+    height: 30%;
+    width: 10%;
+    top: 27%;
+    left: 85%;
+    cursor: grab;
+    background-color: white;
+}
+
+.table_board_progress {
+/*    float: left; */
+    position: absolute;
+    display: block;
+/*    overflow: auto; */
+/*    width: 100%; */
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    height: 30%;
+}
+
+.table_board_progress table {
+    position: absolute;
+    display: block;
+    border: 1px solid #dededf;
+    height: 100%; 
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: left;
+}
+
+.table_board_progress caption {
+    caption-side: top;
+    text-align: center;
+}
+
+.table_board_progress th {
+    border: 1px solid #dededf;
+    background-color: #eceff1;
+/*    color: #000000; */
+    padding: 2px;
+}
+
+.table_board_progress td {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+/*    color: #000000; */
+    padding: 2px;
+}

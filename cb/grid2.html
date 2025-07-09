@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='grid2.css'>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="head">head</div>
+        <div class="board-info">board-info<br><button id="newBoard">New Board</button></div>
+        <div class="north" id="north">North <button id="nReveal">Reveal</button><br>
+            <div id="nPoints"></div>
+        </div>
+        <div class="bidding">bidding</div>
+        <div class="west" id="west">West <button id="wReveal">Reveal</button><br>
+            <div id="wPoints"></div>        
+        </div>
+        <div class="play-area">play-area<br>
+            <div id="north-playarea" draggable="true"></div>  
+            <div id="south-playarea" draggable="true"></div>  
+            <div id="west-playarea" draggable="true"></div>  
+            <div id="east-playarea" draggable="true"></div>  
+        </div>
+        <div class="east" id="east">East <button id="eReveal">Reveal</button><br>
+            <div id="ePoints"></div>        
+        </div>
+        <div class="misc">Board Progress<br>
+                <table class="table_board_progress" id="table_board_progress">
+                    <thead>
+                        <tr>
+                            <th>Hand</th>
+                            <th>North</th>
+                            <th>East</th>
+                            <th>South</th>
+                            <th>West</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+<!--                            <td style="color: red">K&hearts;</td> -->
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+<!--                            <td style="color: green">Trick made</td> -->
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+        </div>
+        <div class="south" id="south">South <button id="sReveal">Reveal</button><br>
+            <div id="sPoints"></div>
+        </div>
+        <div class="contract">contract</div>
+        <div class="foot">foot</div>
+    </div>
+    <script src="grid2.js"></script>
+</body>
+</html>
